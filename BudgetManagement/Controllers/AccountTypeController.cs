@@ -13,6 +13,10 @@ namespace BudgetManagement.Controllers
         [HttpPost]
         public IActionResult Create( AccountType accountType )
         {
+            if ( !ModelState.IsValid )
+            {
+                return View(accountType);
+            }
             return View();
         }
     }
