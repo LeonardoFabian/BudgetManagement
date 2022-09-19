@@ -6,7 +6,7 @@ namespace BudgetManagement.Services
 {
     public interface IAccountTypeRepository
     {
-        void Create(AccountType accountType);
+        Task Create(AccountType accountType);
     }
 
     public class AccountTypeRepository : IAccountTypeRepository
@@ -17,11 +17,11 @@ namespace BudgetManagement.Services
             connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public void Create(AccountType accountType)
+        public async Task Create(AccountType accountType)
         {
             using var connection = new SqlConnection(connectionString);
 
-            var id = connection.QuerySingle<int>($@"INSERT INTO AccountType (Name, OrderNumber, UserId) 
+            var id = await connection.QuerySingleAsync<int>($@"INSERT INTO AccountType (Name, OrderNumber, UserId) 
                                                     VALUES(@Name, @UserId, 0);
                                                     SELECT SCOPE_IDENTITY();", accountType);
 
