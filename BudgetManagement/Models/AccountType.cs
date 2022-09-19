@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BudgetManagement.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace BudgetManagement.Models
 {
@@ -8,6 +9,7 @@ namespace BudgetManagement.Models
 
         [Required(ErrorMessage = "The {0} field is required")]
         [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "the length of the {0} field must be between {2} and {1} characters")]
+        [FirstLetterToUppercase]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required")]
