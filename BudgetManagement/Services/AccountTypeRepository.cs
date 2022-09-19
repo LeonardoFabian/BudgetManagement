@@ -8,6 +8,7 @@ namespace BudgetManagement.Services
     {
         Task Create(AccountType accountType);
         Task<bool> Exists(string name, int userId);
+        Task<IEnumerable<AccountType>> Get(int userId);
     }
 
     public class AccountTypeRepository : IAccountTypeRepository
@@ -25,12 +26,12 @@ namespace BudgetManagement.Services
             var id = await connection.QuerySingleAsync<int>(
                 @"INSERT INTO AccountType (Name, OrderNumber, UserId) 
                 VALUES(@Name, @UserId, 0);
-                 SELECT SCOPE_IDENTITY();", 
+                SELECT SCOPE_IDENTITY();", 
                 accountType);
 
             accountType.Id = id;
         }
-
+        
         public async Task<bool> Exists(string name, int userId)
         {
             using var connection = new SqlConnection(connectionString);
@@ -42,6 +43,16 @@ namespace BudgetManagement.Services
                 new {name, userId} );
 
             return exists == 1;
+        }
+
+        public async Task<IEnumerable<AccountType>> Get(int userId)
+        {
+            using var connection = new SqlConnection(connectionString);
+            return await connection.QueryAsync<AccountType>(
+                @"SELECT Id, Name, OrderNumber
+                FROM AccountType
+                WHERE UserId = @UserId", 
+                new {userId} );
         }
     }
 }

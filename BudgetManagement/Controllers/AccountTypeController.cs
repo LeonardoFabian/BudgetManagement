@@ -12,6 +12,16 @@ namespace BudgetManagement.Controllers
         {
             this.accountTypeRepository = accountTypeRepository;
         }
+
+        public async Task<IActionResult> Index()
+        {
+            var userId = 1; // TODO: Remove later
+
+            var userAccountTypes = await accountTypeRepository.Get(userId);
+
+            return View(userAccountTypes);
+        }
+
         public IActionResult Create()
         {
             return View();
@@ -36,7 +46,7 @@ namespace BudgetManagement.Controllers
 
             await accountTypeRepository.Create(accountType);
 
-            return View();
+            return RedirectToAction("Index");
         }
 
         [HttpGet]

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<AccountType>
+
+@{
+    ViewData["Title"] = "Account Types";
+}
+
+<h1>Account Types</h1>
+<h5>The Account Types allow you to organize your accounts into groups (Credit Cards, Loans, etc).</h5>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Add New</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Order</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach( var accountType in Model ) {
+            <tr>
+                <th scope="row">@accountType.Id</th>
+                <td>@accountType.Name</td>
+                <td>@accountType.OrderNumber</td>
+                <td>
+                    <a class="btn btn-secondary">Edit</a>
+                    <a class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }             
+    </tbody>
+</table>
