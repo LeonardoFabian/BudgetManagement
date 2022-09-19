@@ -25,9 +25,9 @@ namespace BudgetManagement.Controllers
                 return View(accountType);
             }
 
-            var ifExistsAccountType = await accountTypeRepository.Exists(accountType.Name, accountType.UserId);
+            var alreadyExistsAccountType = await accountTypeRepository.Exists(accountType.Name, accountType.UserId);
 
-            if (ifExistsAccountType)
+            if (alreadyExistsAccountType)
             {
                 ModelState.AddModelError(nameof(accountType.Name), $"The name {accountType.Name} already exists.");
 
@@ -37,6 +37,21 @@ namespace BudgetManagement.Controllers
             await accountTypeRepository.Create(accountType);
 
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> VerifyIfCategoryAlreadyExists(string name)
+        {
+            var userId = 1; // TODO: remove later
+
+            var alreadyExistsAccountType = await accountTypeRepository.Exists(name, userId);
+
+            if (alreadyExistsAccountType)
+            {
+                return Json($"The {name} account type already exists.");
+            }
+
+            return Json(true);
         }
     }
 }

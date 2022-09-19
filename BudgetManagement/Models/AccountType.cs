@@ -1,4 +1,5 @@
 ﻿using BudgetManagement.Validations;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace BudgetManagement.Models
@@ -10,6 +11,7 @@ namespace BudgetManagement.Models
         [Required(ErrorMessage = "The {0} field is required")]
         [StringLength(maximumLength: 50, MinimumLength = 3, ErrorMessage = "the length of the {0} field must be between {2} and {1} characters")]
         [FirstLetterToUppercase]
+        [Remote(action: "VerifyIfCategoryAlreadyExists", controller: "AccountType")]
         public string Name { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required")]
