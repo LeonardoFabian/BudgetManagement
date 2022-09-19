@@ -7,11 +7,20 @@
 <h1>Crear Tipo de Cuenta</h1>
 <h5>Las cuentas pueden ser agrupadas por tipo (Préstamos, Tarjetas de Crédito, etc.)</h5>
 
-<form asp-controller="AccountType" asp-action="Create">
-    <div class="mb-3">
-        <label for="Name" class="form-label">Nombre</label>
-        <input type="text" id="Name" name="Name" class="form-control" />
-    </div>
+<div asp-validation-summary="All" class="text-danger"></div>
 
-    <button type="submit" class="btn btn-primary">Crear</button>
+<form asp-controller="AccountType" asp-action="Create">
+    <div class="col-md-6 mx-auto">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input type="text" asp-for="Name" class="form-control" />
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="OrderNumber" class="form-label"></label>
+            <input type="number" asp-for="OrderNumber" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear</button>
+    </div>
 </form>
