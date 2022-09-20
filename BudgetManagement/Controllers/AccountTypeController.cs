@@ -7,15 +7,17 @@ namespace BudgetManagement.Controllers
     public class AccountTypeController : Controller
     {
         private readonly IAccountTypeRepository accountTypeRepository;
+        private readonly IUsersService usersService;
 
-        public AccountTypeController(IAccountTypeRepository accountTypeRepository)
+        public AccountTypeController(IAccountTypeRepository accountTypeRepository, IUsersService usersService)
         {
             this.accountTypeRepository = accountTypeRepository;
+            this.usersService = usersService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var userId = 1; // TODO: Remove later
+            var userId = usersService.GetUserId();
 
             var userAccountTypes = await accountTypeRepository.Get(userId);
 
@@ -35,6 +37,8 @@ namespace BudgetManagement.Controllers
                 return View(accountType);
             }
 
+            accountType.UserId = usersService.GetUserId();
+
             var alreadyExistsAccountType = await accountTypeRepository.Exists(accountType.Name, accountType.UserId);
 
             if (alreadyExistsAccountType)
@@ -52,7 +56,7 @@ namespace BudgetManagement.Controllers
         [HttpGet]
         public async Task<IActionResult> VerifyIfCategoryAlreadyExists(string name)
         {
-            var userId = 1; // TODO: remove later
+            var userId = usersService.GetUserId();
 
             var alreadyExistsAccountType = await accountTypeRepository.Exists(name, userId);
 
